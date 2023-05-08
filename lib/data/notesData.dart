@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../model/note.dart';
 
@@ -17,6 +18,8 @@ class NotesDatabase {
   }
 
   Future<Database> _initDB(String filePath) async {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
